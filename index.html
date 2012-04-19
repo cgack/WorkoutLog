@@ -1,0 +1,181 @@
+<!doctype html>
+<html> 
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Workout Log</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile viewport optimization http://goo.gl/b9SaQ -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 user-scalable=no">
+
+  <!-- Home screen icon  Mathias Bynens http://goo.gl/6nVq0 -->
+  <!-- For iPhone 4 with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/h/apple-touch-icon.png">
+  <!-- For first-generation iPad: -->
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/m/apple-touch-icon.png">
+  <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+  <link rel="apple-touch-icon-precomposed" href="img/l/apple-touch-icon-precomposed.png">
+  <!-- For nokia devices: -->
+  <link rel="shortcut icon" href="img/l/apple-touch-icon.png">
+
+  <!--iOS web app, deletable if not needed -->
+  <!--the script prevents links from opening in mobile safari. https://gist.github.com/1042026
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
+  <link rel="apple-touch-startup-image" href="img/l/splash.png">-->
+
+  <!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
+  <meta http-equiv="cleartype" content="on">
+
+  <!-- more tags for your 'head' to consider https://gist.github.com/849231 -->
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<link rel="stylesheet" href="css/swipeable.css" />
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css?v=1">
+
+  <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
+  <!--<script src="js/libs/modernizr-custom.js"></script>-->
+  <!-- Media Queries Polyfill https://github.com/shichuan/mobile-html5-boilerplate/wiki/Media-Queries-Polyfill -->
+  <!--<script>Modernizr.mq('(min-width:0)') || document.write('<script src="js/libs/respond.min.js">\x3C/script>')</script>-->
+</head>
+<body>
+
+  <div  data-role="page" id="home">
+    <div id="main" role="content">
+  <div class="menu" data-role="header">
+    <ul>
+    <li><a href="#home" data-icon="home" data-iconpos="notext">Home</a>
+    </ul>
+  </div>
+      <div class="content-secondary">
+        <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="f">
+          <li><a id="login" href="{{ url }}">{{ url_linktext }}</a>
+          <li><a id="createworkout"  href="#generate">Save a Workout Definition</a>
+          {% if picklink is divisibleby 2 %}
+          <li><a id="pickLink" href="#pick">Record a Workout</a>
+          <li><a id="showLogs" href="#show">View Logged Workouts</a>
+          {% endif %}
+        </ul>
+      </div>
+    <div class="content-primary">
+      <header>
+        <h2>Workout Log</h2>
+      </header>
+      <span></span>
+    </div>
+
+  </div> <!--! end of #container -->
+</div>
+<div  data-role="page" id="generate">
+
+  <div id="main" role="content">
+  <div class="menu" data-role="header">
+    <ul>
+    <li><a href="#home" data-icon="home" data-iconpos="notext">Home</a>
+    </ul>
+  </div>
+      <div class="content-secondary">
+        <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="f">
+          <li><a id="login" href="{{ url }}">{{ url_linktext }}</a>
+          <li><a id="createworkout"  href="#generate">Save a Workout Definition</a>
+          {% if picklink is divisibleby 2 %}
+          <li><a id="pickLink" href="#pick">Record a Workout</a>
+          <li><a id="showLogs" href="#show">View Logged Workouts</a>
+          {% endif %}
+        </ul>
+      </div>
+    
+    <div class="content-primary">
+      <form>
+      <div data-role="fieldcontain">
+        <label for="workout">Create your workout Here:</label><br />
+        <textarea name="workout" id="workout" rows="4" cols="30"></textarea><br />
+      </div>
+      <div data-role="fieldcontain">
+        <label for="logBy" class="select">Log Work by:</label>
+        <select name="logBy" id="logBy">
+          <option value="0">Time</option>
+          <option value="1">Weight</option>
+          <option value="2">Number of Reps</option>
+        </select>
+      </div>
+      <div data-role="fieldcontain">
+        <input id="generateWkout" type="submit" value="Store Definition" />
+      </div>
+     </form>
+    </div>
+  </div> <!--! end of #container -->
+</div>
+<div  data-role="page" id="pick">
+  <div id="main" role="content">
+  <div class="menu" data-role="header">
+    <ul>
+    <li><a href="#home" data-icon="home" data-iconpos="notext">Home</a>
+    </ul>
+  </div>
+      <div class="content-secondary">
+        <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="f">
+          <li><a id="login" href="{{ url }}">{{ url_linktext }}</a>
+          <li><a id="createworkout"  href="#generate">Save a Workout Definition</a>
+          {% if picklink is divisibleby 2 %}
+          <li><a id="pickLink" href="#pick">Record a Workout</a>
+          <li><a id="showLogs" href="#show">View Logged Workouts</a>
+          {% endif %}
+        </ul>
+      </div>
+    <div class="content-primary">
+           <div data-role="fieldcontain">
+        <label for="wkouts" class="select">Log Workout:</label><br />
+        <select name="wkouts" id="wkouts"></select>
+        <div data-role="fieldcontain">
+          <label for="results">Results:</label></br>
+          <textarea name="results" id="results" rows="4" cols="30"></textarea>
+        </div>
+        <div data-rol="fieldcontain">
+          <label for="date">Date:</label><br/>
+          <input type="date" name="date" id="date" value="" />
+        </div>
+        <input id="storeWkout" type="submit" value="Save Results" />
+      </div>
+    </div>
+
+  </div> <!--! end of #container -->
+</div>
+<div  data-role="page" id="show">
+
+  <div id="main" role="content">
+  <div class="menu" data-role="header">
+    <ul>
+    <li><a href="#home" data-icon="home" data-iconpos="notext">Home</a>
+    </ul>
+  </div>
+      <div class="content-secondary">
+        <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="f">
+          <li><a id="login" href="{{ url }}">{{ url_linktext }}</a>
+          <li><a id="createworkout"  href="#generate">Save a Workout Definition</a>
+          {% if picklink is divisibleby 2 %}
+          <li><a id="pickLink" href="#pick">Record a Workout</a>
+          <li><a id="showLogs" href="#show">View Logged Workouts</a>
+          {% endif %}
+        </ul>
+      </div>
+    <div class="content-primary">
+      <ul data-role="listview" data-inset="true" data-theme="b" data-dividertheme="f" id="loggedWk">
+      </ul>
+    </div>
+
+  </div> <!--! end of #container -->
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="js/script.js"></script>
+<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script> 
+<script src="js/swipeable.js"</script>
+</body>
+</html>

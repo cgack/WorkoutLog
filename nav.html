@@ -1,0 +1,16 @@
+
+  <div class="menu" data-role="header">
+    <ul>
+    <li><a href="#home" data-icon="home" data-iconpos="notext">Home</a>
+    </ul>
+  </div>
+      <div class="content-secondary">
+        <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="f">
+          <li><a id="login" href="{{ url }}">{{ url_linktext }}</a>
+          <li><a id="createworkout"  href="#generate">Save a Workout Definition</a>
+          {% if picklink is divisibleby 2 %}
+          <li><a id="pickLink" href="#pick">Record a Workout</a>
+          <li><a id="showLogs" href="#show">View Logged Workouts</a>
+          {% endif %}
+        </ul>
+      </div>

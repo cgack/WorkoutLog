@@ -1,0 +1,6 @@
+indexes:
+  - kind: WorkoutLog
+    properties:
+    - name: owner
+    - name: date
+      direction: desc

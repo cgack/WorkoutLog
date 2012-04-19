@@ -1,0 +1,132 @@
+
+
+.menu ul {
+    background: none repeat scroll 0 0;
+    height: 2em;
+    list-style: none outside none;
+    padding : 0;
+}
+.menu li {
+    float: left;
+    padding:0;
+    /*border-right: 1px solid #cccccc;*/
+}
+
+.menu label {
+    line-height: 2em;
+    color: #CCCCCC;
+    text-align: center;
+    text-decoration: none;
+    padding: 1em;
+}
+
+.menu input {
+    width:3em;
+}
+.menu li a:hover {
+    /*background-color: #CCCCC4;
+    color: #333333;*/
+    cursor: pointer;
+}
+
+
+.menu li a {
+    line-height: 2em;
+    padding: 1em 1.5em;
+    text-align: center;
+    text-decoration: none;
+}
+.menu:after{
+    clear:both;
+}
+
+
+
+.content-secondary .ui-collapsible {
+  padding: 0 15px 10px;
+
+}
+.content-secondary .ui-collapsible-content {
+  padding: 0;
+  background: none;
+  border-bottom: none;
+}
+.content-secondary .ui-listview {
+  margin: 0;
+}
+
+
+
+
+
+
+
+
+/* Styles for desktop and large screen ----------- */
+
+/*styles for 800px and up!*/
+@media only screen and (min-width: 800px) {
+  /* Styles */
+    .content-secondary {
+    text-align: left;
+    float: left;
+    width: 15%;
+    background: none;
+    padding: 2em;
+  }
+
+    .content-primary {
+    width: 60%;
+    float: right;
+		padding-top: 2em;
+		padding-bottom: 2em;
+    padding-right:2em;
+  }
+  div.ui-btn {
+    margin: 0 auto;
+  }
+}/*/mediaquery*/
+
+
+/* iPhone 4, Opera Mobile 11 and other high pixel ratio devices ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (min-device-pixel-ratio: 1.5) {
+  /* Styles */
+}
+
+
+
+
+/*
+ * jQuery UI Datepicker @VERSION
+ *
+ * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ *
+ * http://docs.jquery.com/UI/Datepicker#theming
+ */
+div.hasDatepicker{ display: block; padding: 0; overflow: visible;  margin: 8px 0; }
+.ui-datepicker {  overflow: visible; margin: 0; max-width: 500px;  }
+.ui-datepicker .ui-datepicker-header { position:relative; padding:.4em 0; border-bottom: 0; font-weight: bold; }
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next { padding: 1px 0 1px 2px; position:absolute; top: .5em; margin-top: 0; text-indent: -9999px; }
+
+.ui-datepicker .ui-datepicker-prev { left:6px; }
+.ui-datepicker .ui-datepicker-next { right:6px; }
+.ui-datepicker .ui-datepicker-title { margin: 0 2.3em; line-height: 1.8em; text-align: center; }
+.ui-datepicker .ui-datepicker-title select { font-size:1em; margin:1px 0; }
+.ui-datepicker select.ui-datepicker-month-year {width: 100%;}
+.ui-datepicker select.ui-datepicker-month, 
+.ui-datepicker select.ui-datepicker-year { width: 49%;}
+.ui-datepicker table {width: 100%; border-collapse: collapse; margin:0; }
+.ui-datepicker td { border-width: 1px; padding: 0; text-align: center; }
+.ui-datepicker td span, .ui-datepicker td a { display: block; padding: .2em 0; font-weight: bold; margin: 0; border-width: 0; text-align: center; text-decoration: none; }
+
+.ui-datepicker-calendar th { padding-top: .3em; padding-bottom: .3em; }
+.ui-datepicker-calendar th span, .ui-datepicker-calendar span.ui-state-default { opacity: .3; }
+.ui-datepicker-calendar td a { padding-top: .5em; padding-bottom: .5em; }
+
+.min-width-480px div.hasDatepicker  { width: 63%; display: inline-block; margin: 0; } 

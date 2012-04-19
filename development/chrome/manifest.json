@@ -1,0 +1,18 @@
+{
+	"name": "cfitlog",
+	"version": "0.1",
+	"description": "My Extension Description (built on Forge)",
+	"permissions": ["tabs", "http://*/*", "https://*/*"],
+	"background_page": "forge.html",
+	"content_scripts": [
+		{
+			"matches": ["http://*/*", "https://*/*"]
+			, "js": ["forge/all.js", "src/js/every-page.js"]
+			, "css": []
+			, "run_at": "document_start"
+			, "all_frames": false
+
+		}
+	],
+	"browser_action": {"default_popup": "src/index.html", "default_icon": "src/img/logo-forge.png", "default_title": "An example browser toolbar icon"}
+}

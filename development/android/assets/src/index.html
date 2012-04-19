@@ -1,0 +1,101 @@
+<!doctype html>
+<html> 
+{% include 'head.html' %}
+<body>
+
+  <div  data-role="page" id="home">
+    <div id="main" role="content">
+       {% include 'nav.html' %}
+    <div class="content-primary">
+      <header>
+        <h2>Workout Log</h2>
+        <h3>add your workouts here</h3>
+      </header>
+      <span></span>
+    </div>
+    </div>
+
+    <div data-role="footer">
+      <h5></h5>
+    </div>
+  </div> <!--! end of #container -->
+
+<div  data-role="page" id="generate">
+
+  <div id="main" role="content">
+  {% include 'nav.html' %}
+    
+    <div class="content-primary">
+      <form>
+      <div data-role="fieldcontain">
+        <label for="workout">Create your workout Here:</label><br />
+        <textarea name="workout" id="workout" rows="4" cols="30"></textarea><br />
+      </div>
+      <div data-role="fieldcontain">
+        <label for="logBy" class="select">Log Work by:</label>
+        <select name="logBy" id="logBy">
+          <option value="0">Time</option>
+          <option value="1">Weight</option>
+          <option value="2">Number of Reps</option>
+        </select>
+      </div>
+      <div data-role="fieldcontain">
+        <input id="generateWkout" type="submit" value="Store Definition" />
+      </div>
+     </form>
+    </div>
+    <div data-role="footer">
+      <h5></h5>
+    </div>
+  </div> <!--! end of #container -->
+</div>
+<div  data-role="page" id="pick">
+  <div id="main" role="content">
+    {% include 'nav.html' %}
+    <div class="content-primary">
+           <div data-role="fieldcontain">
+        <label for="wkouts" class="select">Log Workout:</label><br />
+        <select name="wkouts" id="wkouts"></select>
+        <div data-role="fieldcontain">
+          <label for="results">Results:</label></br>
+          <textarea name="results" id="results" rows="4" cols="30"></textarea>
+        </div>
+        <div data-rol="fieldcontain">
+          <label for="date">Date:</label><br/>
+          <input type="date" name="date" id="date" value="" />
+        </div>
+        <input id="storeWkout" type="submit" value="Save Results" />
+      </div>
+    </div>
+
+   <div data-role="footer">
+      <h5></h5>
+    </div>
+  </div> <!--! end of #container -->
+</div>
+<div  data-role="page" id="show">
+
+  <div id="main" role="content">
+    {% include 'nav.html' %}
+    <div class="content-primary">
+      <ul data-role="listview" data-inset="true" data-theme="b" data-dividertheme="f" id="loggedWk">
+      </ul>
+    </div>
+
+   <div data-role="footer">
+      <h5></h5>
+    </div>
+  </div> <!--! end of #container -->
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+ <script>
+  //reset type=date inputs to text
+  $( document ).bind( "mobileinit", function(){
+    $.mobile.page.prototype.options.degradeInputs.date = true;
+  }); 
+</script> 
+<script src="js/script.js"></script>
+<script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script> 
+</body>
+</html>

@@ -1,0 +1,19 @@
+.ui-swipeable {
+	display: block;
+	text-align: center;
+	cursor: pointer;
+	position: relative;
+	margin: .25em .5em;
+	padding: 1em;
+	
+	border: 1px solid #CCC;
+	background: #EEE;
+	color: #222;
+	text-shadow: 0 1px 0 white;
+	background-image: -webkit-gradient(linear, left top, left bottom, from( white ), to( #F1F1F1 ));
+	background-image: -webkit-linear-gradient( white , #F1F1F1 );
+	background-image: -moz-linear-gradient( white , #F1F1F1 );
+	background-image: -ms-linear-gradient( white , #F1F1F1 );
+	background-image: -o-linear-gradient( white , #F1F1F1 );
+	background-image: linear-gradient( white , #F1F1F1 );
+}
