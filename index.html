@@ -48,29 +48,35 @@
 
   <div  data-role="page" id="home">
     <div id="main" role="content">
-  <div class="menu" data-role="header">
-    <ul>
-    <li><a href="#home" data-icon="home" data-iconpos="notext">Home</a>
-    </ul>
-  </div>
-      <div class="content-secondary">
-        <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="f">
-          <li><a id="login" href="{{ url }}">{{ url_linktext }}</a>
-          <li><a id="createworkout"  href="#generate">Save a Workout Definition</a>
-          {% if picklink is divisibleby 2 %}
-          <li><a id="pickLink" href="#pick">Record a Workout</a>
-          <li><a id="showLogs" href="#show">View Logged Workouts</a>
-          {% endif %}
+      <div class="menu" data-role="header">
+        <ul>
+          <li><a href="#home" data-icon="home" data-iconpos="notext">Home</a>
         </ul>
       </div>
-    <div class="content-primary">
-      <header>
-        <h2>Workout Log</h2>
-      </header>
-      <span></span>
-    </div>
-
-  </div> <!--! end of #container -->
+       <div class="content-primary">
+        <header>
+          <h4>Workout Log</h4>
+        </header>
+        <p> This is a place you can define and store you workouts </p>
+        <span></span>
+      </div>
+          <div class="content-secondary">
+        
+        <div data-role="swipeable" data-swipe="right">
+          <h4>Show Menu >>></h4>
+          <div data-role="controlgroup" >
+            <a data-role="button" id="login" href="{{ url }}">{{ url_linktext }}</a>
+            <a data-role="button" id="createworkout"  href="#generate">Save a Workout Definition</a>
+            {% if picklink is divisibleby 2 %}
+            <a data-role="button" id="pickLink" href="#pick">Record a Workout</a>
+            <a data-role="button" id="showLogs" href="#show">View Logged Workouts</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    
+     
+    </div> <!--! end of #container -->
 </div>
 <div  data-role="page" id="generate">
 
@@ -80,18 +86,7 @@
     <li><a href="#home" data-icon="home" data-iconpos="notext">Home</a>
     </ul>
   </div>
-      <div class="content-secondary">
-        <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="f">
-          <li><a id="login" href="{{ url }}">{{ url_linktext }}</a>
-          <li><a id="createworkout"  href="#generate">Save a Workout Definition</a>
-          {% if picklink is divisibleby 2 %}
-          <li><a id="pickLink" href="#pick">Record a Workout</a>
-          <li><a id="showLogs" href="#show">View Logged Workouts</a>
-          {% endif %}
-        </ul>
-      </div>
-    
-    <div class="content-primary">
+   <div class="content-primary">
       <form>
       <div data-role="fieldcontain">
         <label for="workout">Create your workout Here:</label><br />
@@ -110,6 +105,22 @@
       </div>
      </form>
     </div>
+      <div class="content-secondary">
+        
+        <div data-role="swipeable" data-swipe="right">
+          <h4>Show Menu >>></h4>
+          <div data-role="controlgroup" >
+            <a data-role="button" id="login" href="{{ url }}">{{ url_linktext }}</a>
+            <a data-role="button" id="createworkout"  href="#generate">Save a Workout Definition</a>
+            {% if picklink is divisibleby 2 %}
+            <a data-role="button" id="pickLink" href="#pick">Record a Workout</a>
+            <a data-role="button" id="showLogs" href="#show">View Logged Workouts</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    
+   
   </div> <!--! end of #container -->
 </div>
 <div  data-role="page" id="pick">
@@ -119,16 +130,7 @@
     <li><a href="#home" data-icon="home" data-iconpos="notext">Home</a>
     </ul>
   </div>
-      <div class="content-secondary">
-        <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="f">
-          <li><a id="login" href="{{ url }}">{{ url_linktext }}</a>
-          <li><a id="createworkout"  href="#generate">Save a Workout Definition</a>
-          {% if picklink is divisibleby 2 %}
-          <li><a id="pickLink" href="#pick">Record a Workout</a>
-          <li><a id="showLogs" href="#show">View Logged Workouts</a>
-          {% endif %}
-        </ul>
-      </div>
+     
     <div class="content-primary">
            <div data-role="fieldcontain">
         <label for="wkouts" class="select">Log Workout:</label><br />
@@ -144,6 +146,21 @@
         <input id="storeWkout" type="submit" value="Save Results" />
       </div>
     </div>
+           <div class="content-secondary">
+        
+        <div data-role="swipeable" data-swipe="right">
+          <h4>Show Menu >>></h4>
+          <div data-role="controlgroup" >
+            <a data-role="button" id="login" href="{{ url }}">{{ url_linktext }}</a>
+            <a data-role="button" id="createworkout"  href="#generate">Save a Workout Definition</a>
+            {% if picklink is divisibleby 2 %}
+            <a data-role="button" id="pickLink" href="#pick">Record a Workout</a>
+            <a data-role="button" id="showLogs" href="#show">View Logged Workouts</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    
 
   </div> <!--! end of #container -->
 </div>
@@ -155,27 +172,32 @@
     <li><a href="#home" data-icon="home" data-iconpos="notext">Home</a>
     </ul>
   </div>
-      <div class="content-secondary">
-        <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="f">
-          <li><a id="login" href="{{ url }}">{{ url_linktext }}</a>
-          <li><a id="createworkout"  href="#generate">Save a Workout Definition</a>
-          {% if picklink is divisibleby 2 %}
-          <li><a id="pickLink" href="#pick">Record a Workout</a>
-          <li><a id="showLogs" href="#show">View Logged Workouts</a>
-          {% endif %}
-        </ul>
-      </div>
+    
     <div class="content-primary">
       <ul data-role="listview" data-inset="true" data-theme="b" data-dividertheme="f" id="loggedWk">
       </ul>
     </div>
-
+      <div class="content-secondary">
+        
+        <div data-role="swipeable" data-swipe="right">
+          <h4>Show Menu >>></h4>
+          <div data-role="controlgroup" >
+            <a data-role="button" id="login" href="{{ url }}">{{ url_linktext }}</a>
+            <a data-role="button" id="createworkout"  href="#generate">Save a Workout Definition</a>
+            {% if picklink is divisibleby 2 %}
+            <a data-role="button" id="pickLink" href="#pick">Record a Workout</a>
+            <a data-role="button" id="showLogs" href="#show">View Logged Workouts</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    
   </div> <!--! end of #container -->
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="js/script.js"></script>
 <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script> 
-<script src="js/swipeable.js"</script>
+<script src="js/swipeable.js"></script>
 </body>
 </html>

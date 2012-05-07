@@ -5,6 +5,8 @@
     </ul>
   </div>
       <div class="content-secondary">
+        <div data-role="swipeable" data-swipe="right">
+          <h2>Show Menu >></h2>
         <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="f">
           <li><a id="login" href="{{ url }}">{{ url_linktext }}</a>
           <li><a id="createworkout"  href="#generate">Save a Workout Definition</a>
@@ -13,4 +15,5 @@
           <li><a id="showLogs" href="#show">View Logged Workouts</a>
           {% endif %}
         </ul>
+      </div>
       </div>

@@ -1,4 +1,4 @@
-var basePath = "http://192.168.1.72:8080";
+
 $(document).ready(function() {
 
 		
@@ -96,15 +96,7 @@ $(document).ready(function() {
 					pickFrom(data)
 				}
 			});
-		} else {
-			$.ajax({
-				type: "GET",
-				url: basePath + "/getLoginUrl",
-				success: function(data) {
-					console.log(data);
-				}
-			});
-		}
+		} 
 
 	};
 

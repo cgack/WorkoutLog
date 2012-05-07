@@ -7,6 +7,7 @@ import os
 import logging
 import json
 import re
+import logging
 
 from datetime import datetime
 
@@ -128,6 +129,7 @@ class PickWorkout(webapp2.RequestHandler):
 
 class Generate(webapp2.RequestHandler):
 	def post(self):
+		#logging.debug('inside Generate class')
 		q = self.request.get('workout')
 		by = int(self.request.get('logBy'))
 		workout = WorkoutDefinition()
