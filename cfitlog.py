@@ -4,10 +4,8 @@ import urllib
 import webapp2  #bundled with appengin_e python2.7 sdk
 import jinja2
 import os 
-import logging
 import json
 import re
-import logging
 
 from datetime import datetime
 
@@ -22,62 +20,52 @@ jinja_environment = jinja2.Environment(
 	loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 
-def parseDateTime(s):
-	"""Create datetime object representing date/time
-	   expressed in a string
- 
-	Takes a string in the format produced by calling str()
-	on a python datetime object and returns a datetime
-	instance that would produce that string.
- 
-	Acceptable formats are: "YYYY-MM-DD HH:MM:SS.ssssss+HH:MM",
-							"YYYY-MM-DD HH:MM:SS.ssssss",
-							"YYYY-MM-DD HH:MM:SS+HH:MM",
-							"YYYY-MM-DD HH:MM:SS"
-	Where ssssss represents fractional seconds.	 The timezone
-	is optional and may be either positive or negative
-	hours/minutes east of UTC.
-	"""
-	if s is None:
-		return None
-	# Split string in the form 2007-06-18 19:39:25.3300-07:00
-	# into its constituent date/time, microseconds, and
-	# timezone fields where microseconds and timezone are
-	# optional.
-	m = re.match(r'(.*?)(?:\.(\d+))?(([-+]\d{1,2}):(\d{2}))?$',
-				 str(s))
-	datestr, fractional, tzname, tzhour, tzmin = m.groups()
- 
-	# Create tzinfo object representing the timezone
-	# expressed in the input string.  The names we give
-	# for the timezones are lame: they are just the offset
-	# from UTC (as it appeared in the input string).  We
-	# handle UTC specially since it is a very common case
-	# and we know its name.
-	if tzname is None:
-		tz = None
-	else:
-		tzhour, tzmin = int(tzhour), int(tzmin)
-		if tzhour == tzmin == 0:
-			tzname = 'UTC'
-		tz = FixedOffset(timedelta(hours=tzhour,
-								   minutes=tzmin), tzname)
- 
-	# Convert the date/time field into a python datetime
-	# object.
-	x = datetime.strptime(datestr, "%m/%d/%Y %H:%M:%S")
- 
-	# Convert the fractional second portion into a count
-	# of microseconds.
-	if fractional is None:
-		fractional = '0'
-	fracpower = 6 - len(fractional)
-	fractional = float(fractional) * (10 ** fracpower)
- 
-	# Return updated datetime object with microseconds and
-	# timezone information.
-	return x.replace(microsecond=int(fractional), tzinfo=tz)
- 
+## start http://code.activestate.com/recipes/577135/ 
+def _datetime_from_str(time_str):
+    import time
+    import datetime
+    formats = [
+        # <scope>, <pattern>, <format>
+        ("year", "YYYY", "%Y"),
+        ("month", "YYYY-MM", "%Y-%m"),
+        ("day", "YYYY-MM-DD", "%Y-%m-%d"),
+        ("hour", "YYYY-MM-DD HH", "%Y-%m-%d %H"),
+        ("minute", "YYYY-MM-DD HH:MM", "%Y-%m-%d %H:%M"),
+        ("second", "YYYY-MM-DD HH:MM:SS", "%Y-%m-%d %H:%M:%S"),
+        ("seconda", "YY-MM-DD HH:MM:SS", "%y-%m-%d %H:%M:%S"),
+        ("secs", "MM/DD/YYYY HH:MM:SS", "%m/%d/%Y %H:%M:%S"),
+        ("secsa", "MM/DD/YY HH:MM:SS", "%m/%d/%y %H:%M:%S"),
+        # ".<microsecond>" at end is manually handled below
+        ("microsecond", "YYYY-MM-DD HH:MM:SS", "%Y-%m-%d %H:%M:%S"),
+    ]
+    for scope, pattern, format in formats:
+        if scope == "microsecond":
+            # Special handling for microsecond part. AFAIK there isn't a
+            # strftime code for this.
+            if time_str.count('.') != 1:
+                continue
+            time_str, microseconds_str = time_str.split('.')
+            try:
+                microsecond = int((microseconds_str + '000000')[:6])
+            except ValueError:
+                continue
+        try:
+            # This comment here is the modern way. The subsequent two
+            # lines are for Python 2.4 support.
+            #t = datetime.datetime.strptime(time_str, format)
+            t_tuple = time.strptime(time_str, format)
+            t = datetime.datetime(*t_tuple[:6])
+        except ValueError:
+            pass
+        else:
+            if scope == "microsecond":
+                t = t.replace(microsecond=microsecond)
+            return t
+    else:
+        raise ValueError("could not determine date from %r: does not "
+            "match any of the accepted patterns ('%s')"
+            % (time_str, "', '".join(s for s,p,f in formats)))
+## end of http://code.activestate.com/recipes/577135/ }}}
 
 class MainPage(webapp2.RequestHandler):
 	def get(self):
@@ -100,14 +88,6 @@ class MainPage(webapp2.RequestHandler):
 		template = jinja_environment.get_template('index.html')
 		self.response.out.write(template.render(template_values))
 
-class GetLoginUrl(webapp2.RequestHandler):
-	def get(self):
-		url = users.create_login_url(self.request.uri)
-		loginurl = {
-			'url' : url
-		}
-		self.response.out.write(json.dumps(loginurl))
-
 class PickWorkout(webapp2.RequestHandler):
 	def get(self):
 		
@@ -123,13 +103,11 @@ class PickWorkout(webapp2.RequestHandler):
 		
 		userWorkouts = {'workouts': workouts};
 		
-#		self.response.headers["Content-Type"] = "application/javascript"
 		self.response.out.write(json.dumps(userWorkouts))
 		 
 
 class Generate(webapp2.RequestHandler):
 	def post(self):
-		#logging.debug('inside Generate class')
 		q = self.request.get('workout')
 		by = int(self.request.get('logBy'))
 		workout = WorkoutDefinition()
@@ -156,7 +134,6 @@ class ShowLogs(webapp2.RequestHandler):
 		
 		userWorkouts = {'workouts': workouts};
 		
-#		self.response.headers["Content-Type"] = "application/javascript"
 		self.response.out.write(json.dumps(userWorkouts))
 		 
 
@@ -164,7 +141,7 @@ class StoreWorkout(webapp2.RequestHandler):
 	def post(self):
 		desc = self.request.get('workout')
 		res = self.request.get('result')
-		date = parseDateTime(self.request.get('date'))
+		date = _datetime_from_str(self.request.get('date'))
 		workout = WorkoutLog()
 
 		if users.get_current_user():
@@ -188,6 +165,5 @@ app = webapp2.WSGIApplication([('/', MainPage),
 							   ('/pick', PickWorkout),
 							   ('/store', StoreWorkout),
 							   ('/show', ShowLogs),
-							   ('/getLoginUrl', GetLoginUrl),
 							   ('/.*', NotFound)],
 							   debug=True)
