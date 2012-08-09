@@ -1,26 +1,21 @@
 import cgi
-import datetime
 import urllib
-import webapp2  #bundled with appengin_e python2.7 sdk
-import jinja2
-import os 
+import os
 import json
-import re
+import wsgiref.handlers
 
-from datetime import datetime
 
+from google.appengine.ext import webapp
 from google.appengine.ext import db
 from google.appengine.api import users
+from google.appengine.ext.webapp.util import run_wsgi_app
+from google.appengine.ext.webapp import template
 
 from model import WorkoutDefinition
 from model import WorkoutLog
 
-#setup templating environment
-jinja_environment = jinja2.Environment(
-	loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-
-## start http://code.activestate.com/recipes/577135/ 
+## start http://code.activestate.com/recipes/577135/
 def _datetime_from_str(time_str):
     import time
     import datetime
@@ -64,106 +59,155 @@ def _datetime_from_str(time_str):
     else:
         raise ValueError("could not determine date from %r: does not "
             "match any of the accepted patterns ('%s')"
-            % (time_str, "', '".join(s for s,p,f in formats)))
+            % (time_str, "', '".join(s for s, p, f in formats)))
 ## end of http://code.activestate.com/recipes/577135/ }}}
 
-class MainPage(webapp2.RequestHandler):
-	def get(self):
 
-		if users.get_current_user():
-			url = users.create_logout_url(self.request.uri)
-			url_linktext = 'Logout'
-			picklink = 2
-		else:
-			url = users.create_login_url(self.request.uri)
-			url_linktext = 'Login'
-			picklink = 1
+class MainPage(webapp.RequestHandler):
+    def get(self):
 
-		template_values = {
-			'url' : url,
-			'url_linktext' : url_linktext,
-			'picklink' : picklink,
-		}
+        if users.get_current_user():
+            url = users.create_logout_url(self.request.uri)
+            url_linktext = 'Logout'
+            picklink = 2
+        else:
+            url = users.create_login_url(self.request.uri)
+            url_linktext = 'Login'
+            picklink = 1
 
-		template = jinja_environment.get_template('index.html')
-		self.response.out.write(template.render(template_values))
+        template_values = {
+            'url': url,
+            'url_linktext': url_linktext,
+            'picklink': picklink,
+        }
 
-class PickWorkout(webapp2.RequestHandler):
-	def get(self):
-		
-		workouts = []
-
-		if users.get_current_user():
-			wkouts = db.GqlQuery("SELECT * FROM WorkoutDefinition WHERE owner = :u", u=users.get_current_user())
-		else:
-			wkouts = ""
-
-		for wkout in wkouts:
-			workouts.append({'desc' : wkout.description, 'logBy' : wkout.logBy })
-		
-		userWorkouts = {'workouts': workouts};
-		
-		self.response.out.write(json.dumps(userWorkouts))
-		 
-
-class Generate(webapp2.RequestHandler):
-	def post(self):
-		q = self.request.get('workout')
-		by = int(self.request.get('logBy'))
-		workout = WorkoutDefinition()
-		if users.get_current_user():
-			workout.owner = users.get_current_user()
-		
-		workout.description = q
-		workout.logBy = by
-
-		workout.put()
+        path = os.path.join(os.path.dirname(__file__), 'templates/home.html')
+        self.response.out.write(template.render(path, template_values))
 
 
-class ShowLogs(webapp2.RequestHandler):
-	def get(self):
-		workouts = []
+class Define(webapp.RequestHandler):
+    def get(self):
+        if users.get_current_user():
+            url = users.create_logout_url(self.request.uri)
+            url_linktext = 'Logout'
+            picklink = 2
+        else:
+            url = users.create_login_url(self.request.uri)
+            url_linktext = 'Login'
+            picklink = 1
 
-		if users.get_current_user():
-			wkouts = db.GqlQuery("SELECT * FROM WorkoutLog WHERE owner = :u ORDER BY date DESC", u=users.get_current_user())
-		else:
-			wkouts = ""
+        template_values = {
+            'url': url,
+            'url_linktext': url_linktext,
+            'picklink': picklink,
+        }
 
-		for wkout in wkouts:
-			workouts.append({'desc' : wkout.description, 'result' : wkout.result, 'date' : str(wkout.date) })
-		
-		userWorkouts = {'workouts': workouts};
-		
-		self.response.out.write(json.dumps(userWorkouts))
-		 
-
-class StoreWorkout(webapp2.RequestHandler):
-	def post(self):
-		desc = self.request.get('workout')
-		res = self.request.get('result')
-		date = _datetime_from_str(self.request.get('date'))
-		workout = WorkoutLog()
-
-		if users.get_current_user():
-			workout.owner = users.get_current_user()
-		
-		workout.description = desc
-		workout.result = res
-		workout.date = date
-		
-		workout.put()
+        path = os.path.join(os.path.dirname(__file__), 'templates/generate.html')
+        self.response.out.write(template.render(path, template_values))
 
 
-class NotFound(webapp2.RequestHandler):
-	def get(self):
-		self.error(404)
-		template = jinja_environment.get_template('404.html')
-		self.response.out.write(template.render())
+class PickWorkout(webapp.RequestHandler):
+    def get(self):
+        workouts = []
 
-app = webapp2.WSGIApplication([('/', MainPage), 
-							   ('/generate',Generate),
-							   ('/pick', PickWorkout),
-							   ('/store', StoreWorkout),
-							   ('/show', ShowLogs),
-							   ('/.*', NotFound)],
-							   debug=True)
+        if users.get_current_user():
+            url = users.create_logout_url(self.request.uri)
+            url_linktext = 'Logout'
+            picklink = 2
+            wkouts = db.GqlQuery("SELECT * FROM WorkoutDefinition WHERE owner = :u", u=users.get_current_user())
+        else:
+            wkouts = ""
+            url = users.create_login_url(self.request.uri)
+            url_linktext = 'Login'
+            picklink = 1
+
+        for wkout in wkouts:
+            workouts.append({'desc': wkout.description, 'logBy': wkout.logBy})
+
+        template_values = {
+            'url': url,
+            'url_linktext': url_linktext,
+            'picklink': picklink,
+            'workouts': workouts
+        }
+
+        path = os.path.join(os.path.dirname(__file__), 'templates/pick.html')
+        self.response.out.write(template.render(path, template_values))
+
+
+class Generate(webapp.RequestHandler):
+    def post(self):
+        q = self.request.get('workout')
+        by = int(self.request.get('logBy'))
+        workout = WorkoutDefinition()
+        if users.get_current_user():
+            workout.owner = users.get_current_user()
+
+        workout.description = q
+        workout.logBy = by
+
+        workout.put()
+
+
+class ShowLogs(webapp.RequestHandler):
+    def get(self):
+        workouts = []
+
+        if users.get_current_user():
+            wkouts = db.GqlQuery("SELECT * FROM WorkoutLog WHERE owner = :u ORDER BY date DESC", u=users.get_current_user())
+            url = users.create_logout_url(self.request.uri)
+            url_linktext = 'Logout'
+            picklink = 2
+        else:
+            wkouts = ""
+            url = users.create_login_url(self.request.uri)
+            url_linktext = 'Login'
+            picklink = 1
+
+        for wkout in wkouts:
+            workouts.append({'desc': wkout.description, 'result': wkout.result, 'date': str(wkout.date.replace(microsecond=0))})
+
+        template_values = {
+            'url': url,
+            'url_linktext': url_linktext,
+            'picklink': picklink,
+            'workouts': workouts
+        }
+
+        path = os.path.join(os.path.dirname(__file__), 'templates/history.html')
+        self.response.out.write(template.render(path, template_values))
+
+
+class StoreWorkout(webapp.RequestHandler):
+    def post(self):
+        desc = self.request.get('workout')
+        res = self.request.get('result')
+        date = _datetime_from_str(self.request.get('date'))
+        workout = WorkoutLog()
+
+        if users.get_current_user():
+            workout.owner = users.get_current_user()
+
+        workout.description = desc
+        workout.result = res
+        workout.date = date
+
+        workout.put()
+
+
+class NotFound(webapp.RequestHandler):
+    def get(self):
+        self.error(404)
+        path = os.path.join(os.path.dirname(__file__), '404.html')
+        self.response.out.write(template.render(path, None))
+
+
+app = webapp.WSGIApplication([('/', MainPage),
+                                ('/generate', Generate),
+                                ('/define', Define),
+                                ('/pick', PickWorkout),
+                                ('/store', StoreWorkout),
+                                ('/show', ShowLogs),
+                                ('/home', MainPage),
+                                ('/.*', NotFound)],
+                                debug=True)

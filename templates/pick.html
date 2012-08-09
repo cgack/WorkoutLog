@@ -1,0 +1,19 @@
+{% extends "index.html" %}
+{% block content %}
+      <div class="well"
+        <label for="wkouts" class="select">Log Workout:</label><br />
+        <select name="wkouts" id="wkouts" class="input-xlarge">
+          {% for wkout in workouts %}
+          <option value="{{ wkout.desc }}">{{ wkout.desc }}</option>
+            {% endfor %}
+        </select>
+          <label for="results">Results:</label></br>
+          <textarea name="results" id="results" rows="4" class="input-xlarge" cols="30"></textarea>
+          <label for="date">Date:</label><br/>
+          <input type="date" name="date" id="date" class="input-xlarge" value="" />
+        <div>
+        <input id="storeWkout" class="btn btn-primary"type="submit" value="Save Results" />
+      </div>
+    </div>
+
+    {% endblock %}

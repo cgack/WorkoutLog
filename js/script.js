@@ -8,6 +8,7 @@ $(document).ready(function() {
 		var workout = {};
 		workout.workout = wkout;
 		workout.logBy = logBy;
+
 		$.ajax({
 			type: "POST",
 			url: "/generate",
@@ -38,67 +39,6 @@ $(document).ready(function() {
 		return false;
 	});
 
-	var wkouts;
-	var pickFrom = function (d) {
-		$.each(JSON.parse(d).workouts, function(k,v){
-			$("#wkouts").append("<option value=" + v.desc.replace(' ', "_") + ">" + v.desc + "</option>");
-		});
-	}
-	var showLogs = function (d) {
-		var logs = $("#loggedWk");
-        if (logs.children().length > 0) {
-        	logs.children().remove();
-        }
-		$.each(JSON.parse(d).workouts, function(k,v){
-			logs.append("<li>" + v.date.split(' ')[0] + ": " + v.desc + " - "  + v.result);
-		});	
-		logs.listview("refresh");
-	}
-    
-    var fetchDefinitions = function () {
-		$.ajax({
-			type: "GET",
-			url: "/pick",
-			success: function(data) { 
-				pickFrom(data)
-			}
-		});
-    };
-
-	var getShowLogs = function () {
-		$.ajax({
-			type: "GET",
-			url: "/show",
-			success: function(data) { 
-				showLogs(data)
-			}
-		});	
-	};
-
-	window.onhashchange = function() {
-		if (location.hash === "#pick"){
-			fetchDefinitions();
-		}
-		if (location.hash === "#show"){
-			getShowLogs();
-		}
-	};
-
-    $("pickLink").live("click", fetchDefinitions);
-	$("#showLogs").live("click", getShowLogs);
-
-	window.onload = function() {
-		if (location.hash === "#pick"){
-			$.ajax({
-				type: "GET",
-				url: "/pick",
-				success: function(data) { 
-					pickFrom(data)
-				}
-			});
-		} 
-
-	};
 
 });
 

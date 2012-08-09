@@ -1,0 +1,18 @@
+{% extends "index.html" %}
+{% block content %}
+ <form class="well">
+     
+        <label for="workout">Create your workout Here:</label><br />
+        <textarea name="workout" id="workout" class="input-xlarge" rows="4" cols="30"></textarea><br />
+      
+        <label for="logBy" class="select">Log Work by:</label>
+        <select name="logBy" id="logBy" class="input-xlarge">
+          <option value="0">Time</option>
+          <option value="1">Weight</option>
+          <option value="2">Number of Reps</option>
+        </select>
+        <div>
+        <input id="generateWkout" class="btn btn-primary" type="submit" value="Store Definition" />
+        <div>
+      </form>
+    {% endblock %}

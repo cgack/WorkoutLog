@@ -1,5 +1,5 @@
 application: cfitlog
-version: a1
+version: 01
 runtime: python27
 api_version: 1
 threadsafe: true
@@ -17,6 +17,3 @@ handlers:
  - url: /.*
    script: cfitlog.app
 
-libraries:
- - name: jinja2
-   version:  2.6
