@@ -1,8 +1,13 @@
 {% extends "index.html" %}
 {% block content %}
-        <ul class="nav nav-pill nav-stacked" id="loggedWk">
+        <ul class="nav nav-pill nav-stacked" data-role="listview" id="loggedWk">
             {% for wkout in workouts %}
-            <li class="well">{{ wkout.date }}: {{ wkout.desc }} - {{ wkout.result }}
+            <li class="well">
+            	<h3>{{ wkout.desc }}</h3>
+            	<p>{{ wkout.result }}</p>
+            	<p class="ui-li-aside">{{ wkout.date }}</p> 
+
+            </li>
             {% endfor %}
         <ul>
 {% endblock %}
