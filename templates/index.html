@@ -2,9 +2,62 @@
 <html>
     {% include "head.html" %}
 	<body>
-      {% include "nav.html" %}
+      
+      <div data-role="page" data-url="home">
+      	{% include "nav.html" %}
+        <h2>Workout Log</h2>
+        <p> This is a friendly place where you can store logs of all your workouts </p>
+      </div>
+      <div data-role="page" data-url="define">
+      	{% include "nav.html" %}
+      	 <form class="well">
+     
+        <label for="workout">Create your workout Here:</label><br />
+        <textarea name="workout" id="workout" class="input-xlarge" rows="4" cols="30"></textarea><br />
+        <div data-role="fieldcontain">
+        <label for="logBy" class="select">Log Work by:</label>
+        <select name="logBy" id="logBy" class="input-xlarge">
+          <option value="0">Time</option>
+          <option value="1">Weight</option>
+          <option value="2">Reps</option>
+        </select>
+      </div>
 
-        {% block content %}
-        {% endblock %}
+        <button id="generateWkout" class="btn btn-primary" >Store Definition</button>
+      </form>
+
+      </div>
+      <div data-role="page" data-url="pick" >
+      	{% include "nav.html" %}
+      	 <div class="well"
+        <label for="wkouts" class="select">Log Workout:</label><br />
+        <select name="wkouts" id="wkouts" class="input-xlarge">
+          {% for deff in definitions %}
+          <option value="{{ deff.desc }}">{{ deff.desc }}</option>
+            {% endfor %}
+        </select>
+          <label for="results">Results:</label></br>
+          <textarea name="results" id="results" rows="4" class="input-xlarge" cols="30"></textarea>
+          <label for="date">Date:</label><br/>
+          <input type="date" name="date" id="date" class="input-xlarge" value="" placeholder="format like: 10/21/12" />
+        <div>
+        <input id="storeWkout" class="btn btn-primary"type="submit" value="Save Results" />
+      </div>
+    </div>
+      </div>
+      <div data-role="page" data-url="history">{% include "nav.html" %}
+      	 <ul class="nav nav-pill nav-stacked" data-role="listview" id="loggedWk">
+            {% for wkout in workouts %}
+            <li class="well">
+            	<h3>{{ wkout.desc }}</h3>
+            	<p>{{ wkout.result }}</p>
+            	<p class="ui-li-aside">{{ wkout.date }}</p> 
+
+            </li>
+            {% endfor %}
+        <ul>
+      </div>
+        <!--{% block content %}
+        {% endblock %}-->
 	</body>
 </html>
